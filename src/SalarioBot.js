@@ -12,9 +12,10 @@ client.on('ready', () => {
 function getDate(){
     let dia_de_hoje = new Date();
     let proximo_cinco = new Date();
-    proximo_cinco.setDate(5);
+    proximo_cinco.setDate(process.env.P_DAY);
     if (proximo_cinco.getDay() === 6 || proximo_cinco.getDay() === 0) proximo_cinco.setDate(4);
-    proximo_cinco.setMonth(dia_de_hoje.getMonth() + 1);
+    if (dia_de_hoje.getDate() > proximo_cinco.getDate()) proximo_cinco.setMonth(dia_de_hoje.getMonth() + 1);
+    if (dia_de_hoje.getDate() === proximo_cinco.getDate()) return 'Hoje é dia de salário :sunglasses:';
     let tempo = Math.floor((proximo_cinco - dia_de_hoje) / 86400000);
     return `Falta ${tempo.toString()} dias para o próximo salário :sunglasses:`;
 }
@@ -31,4 +32,6 @@ client.on('messageCreate', (message) =>{
         }
     }
 })
+
+
 client.login(process.env.BOT_TOKEN)
